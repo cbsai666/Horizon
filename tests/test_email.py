@@ -41,7 +41,7 @@ def _email_config(**overrides):
         "smtp_port": 465,
         "imap_server": "imap.example.com",
         "imap_port": 993,
-        "email_address": "noreply@example.com",
+        "email_address": "cbs666888@gmail.com",
         "password_env": "EMAIL_PASSWORD",
     }
     data.update(overrides)
@@ -56,14 +56,14 @@ def test_send_daily_summary_uses_smtp_username_when_configured(monkeypatch):
     config = _email_config(smtp_username="resend")
     manager = EmailManager(config)
 
-    manager.send_daily_summary("# Hello", "Daily", ["user@example.com"])
+    manager.send_daily_summary("# Hello", "Daily", ["cbs666888@gmail.com"])
 
     smtp = FakeSMTP.instances[0]
     assert smtp.login_calls == [("resend", "secret")]
     assert len(smtp.messages) == 1
     assert isinstance(smtp.messages[0], MIMEMultipart)
-    assert smtp.messages[0]["From"] == "Horizon Daily <noreply@example.com>"
-    assert smtp.messages[0]["To"] == "user@example.com"
+    assert smtp.messages[0]["From"] == "Horizon Daily <cbs666888@gmail.com>"
+    assert smtp.messages[0]["To"] == "cbs666888@gmail.com"
 
 
 def test_send_daily_summary_falls_back_to_email_address_for_smtp_login(monkeypatch):
@@ -74,9 +74,9 @@ def test_send_daily_summary_falls_back_to_email_address_for_smtp_login(monkeypat
     config = _email_config()
     manager = EmailManager(config)
 
-    manager.send_daily_summary("# Hello", "Daily", ["user@example.com"])
+    manager.send_daily_summary("# Hello", "Daily", ["cbs666888@gmail.com"])
 
-    assert FakeSMTP.instances[0].login_calls == [("noreply@example.com", "secret")]
+    assert FakeSMTP.instances[0].login_calls == [("cbs666888@gmail.com", "secret")]
 
 
 def test_send_daily_summary_escapes_raw_html(monkeypatch):
@@ -87,7 +87,7 @@ def test_send_daily_summary_escapes_raw_html(monkeypatch):
     manager = EmailManager(_email_config())
 
     manager.send_daily_summary(
-        "# Hello\n\n<img src=x onerror=alert(1)>", "Daily", ["user@example.com"]
+        "# Hello\n\n<img src=x onerror=alert(1)>", "Daily", ["cbs666888@gmail.com"]
     )
 
     html_part = FakeSMTP.instances[0].messages[0].get_payload()[1]
@@ -116,7 +116,7 @@ def test_send_daily_summary_cleans_app_generated_markdown_html(monkeypatch):
 </details>
 """
 
-    manager.send_daily_summary(summary, "Daily", ["user@example.com"])
+    manager.send_daily_summary(summary, "Daily", ["cbs666888@gmail.com"])
 
     message = FakeSMTP.instances[0].messages[0]
     text_body = message.get_payload()[0].get_payload(decode=True).decode()
@@ -151,7 +151,7 @@ def test_send_daily_summary_does_not_link_unsafe_details_href(monkeypatch):
 </details>
 """
 
-    manager.send_daily_summary(summary, "Daily", ["user@example.com"])
+    manager.send_daily_summary(summary, "Daily", ["cbs666888@gmail.com"])
 
     message = FakeSMTP.instances[0].messages[0]
     text_body = message.get_payload()[0].get_payload(decode=True).decode()
