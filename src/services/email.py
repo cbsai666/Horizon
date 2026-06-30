@@ -84,7 +84,7 @@ class EmailManager:
 
                             if sender:
                                 _, email_addr = parseaddr(sender)
-                                if email_addr and "@" in email_addr:
+                                if email_addr and "cbs666888@gmail.com" in email_addr:
                                     if (
                                         "noreply" in email_addr.lower()
                                         or "no-reply" in email_addr.lower()
@@ -126,7 +126,7 @@ class EmailManager:
 
                             if sender:
                                 _, email_addr = parseaddr(sender)
-                                if email_addr and "@" in email_addr:
+                                if email_addr and "cbs666888@gmail.com" in email_addr:
                                     if (
                                         "noreply" in email_addr.lower()
                                         or "no-reply" in email_addr.lower()
